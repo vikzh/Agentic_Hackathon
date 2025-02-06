@@ -1,3 +1,5 @@
+import streamlit as st
+
 from functools import lru_cache
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -41,7 +43,7 @@ def send_graphql_query_to_subgraph(api_key, query, variables = None):
         print("Error:", response.text)
         return None
 
-if __name__ == "__main__":
+def get_subgraph_data():
     settings = get_settings()
     query = """
     {
@@ -57,4 +59,7 @@ if __name__ == "__main__":
   }
 }
     """
-    print(send_graphql_query_to_subgraph(settings.api_key, query))
+    return send_graphql_query_to_subgraph(settings.api_key, query)
+
+subgraph_data = get_subgraph_data()
+st.write(subgraph_data)
